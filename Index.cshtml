@@ -1,0 +1,225 @@
+﻿@using TACME.FANR.Service
+@model TACME.FANR.Web.ViewModels.HomeViewModel
+@using TACME.FANR.Web.GlobalResources
+@using TACME.FANR.Web.Resources
+@{
+    ViewBag.Title = TACME_FANR_Common.Home;
+    DateTime date = DateTime.Now;
+    var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+    var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
+    var leftdays = lastDayOfMonth.Day - date.Day;
+    var monthdays = lastDayOfMonth.Day;
+    var currentday = date.Day;
+
+}
+@Styles.Render("~/bundles/circular-countdown.css")
+@Scripts.Render("~/bundles/HighCharts")
+
+
+<script>
+	var HomeDashBoard = {
+
+		MyPositivity: '@Url.Action("MyPositivity", "Home")',
+		MyExecllence: '@Url.Action("MyExecllence", "Home")',
+		EmployeeOfMonth: '@Url.Action("EmployeeOfMonth", "Home")',
+        HomeDashBoards: '@Url.Action("HomeChart", "Home")',
+        NotificationUrl: '@Url.Action("Show", "Notification")',
+		Star: '@MonthlyAward.Star',
+		Certificate: '@MonthlyAward.Certificate',
+		Voucher: '@MonthlyAward.GiftVoucher',
+		Locker: '@MonthlyAward.EKeyLocker',
+        thanks: '@MonthlyAward.EThankYouCard',
+         firstDayOfMonth : '@(new DateTime(date.Year, date.Month, 1))',
+         lastDayOfMonth : '@firstDayOfMonth.AddMonths(1).AddDays(-1)',
+         leftdays : '@(lastDayOfMonth.Day - date.Day)',
+         monthdays : '@lastDayOfMonth.Day',
+         currentday : '@date.Day'
+    };
+
+</script>
+
+
+<div class="profileRow d-flex row py-2 animated fadeIn">
+    <div class="col-xl-3 col-md-4">
+        <div class="profileBox">
+            <div class="imgBox">
+                <div class="imgFrame">
+                    <img src="@MyGlobals.EmployeeProfileImage" />
+                </div>
+            </div>
+            <div class="profileData">
+
+                <h4>@ViewBag.UserName </h4>
+                <h6>@ViewBag.designation</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-5 col-md-8">
+        <div id="Home" class="graph"></div>
+        @*<div class="no-data">
+                <h5><i class="fas fa-exclamation-triangle"></i> Sorry, There is no thank you appreciation for you this month till now.</h5>
+            </div>*@
+    </div>
+    <div class="col-xl-4 bannerBox">
+        <div id="bannerCarousel" class="carousel slide " data-ride="carousel" data-interval="3000">
+
+            <!-- Indicators -->
+            @*<ul class="carousel-indicators">
+                <li data-target="#bannerCarousel" data-slide-to="0"></li>
+                <li data-target="#bannerCarousel" data-slide-to="1"></li>
+                <li data-target="#bannerCarousel" data-slide-to="2"></li>
+            </ul>*@
+
+            <!-- The slideshow -->
+            @*<div class="carousel-inner">
+                    <div class="carousel-item active">
+                        @if (MyGlobals.IsLeft)
+                        {
+                            <img src="~/assets/images/header-bannerEN.png" />
+                        }
+                        else
+                        {
+                            <img src="~/assets/images/header-bannerAR.png" />
+                        }
+
+                        <div class="carousel-caption">
+                            <h2>@MonthlyAward.About</h2>
+                            <p>@MonthlyAward.employeeofthe @TACME_FANR_AnnualAward.Month</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        @if (MyGlobals.IsLeft)
+                        {
+                            <img src="~/assets/images/header-bannerEN.png" />
+                        }
+                        else
+                        {
+                            <img src="~/assets/images/header-bannerAR.png" />
+                        }
+
+                        <div class="carousel-caption">
+                            <h2>@MonthlyAward.About</h2>
+                            <p>@MonthlyAward.employeeofthe @TACME_FANR_AnnualAward.Month</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        @if (MyGlobals.IsLeft)
+                        {
+                            <img src="~/assets/images/header-bannerEN.png" />
+                        }
+                        else
+                        {
+                            <img src="~/assets/images/header-bannerAR.png" />
+                        }
+
+                        <div class="carousel-caption">
+                            <h2>@MonthlyAward.About</h2>
+                            <p>@MonthlyAward.employeeofthe @TACME_FANR_AnnualAward.Month</p>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="ml-auto" style="height: 77%; width: 77%;" >
+                    <img class="banner" style="border-radius: 8px !important;" src="~/assets/images/FARAS- LOGO.png" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="py-2"></div>
+<div class="bodyRow row py-1">
+    <div class="col-xl-9 push-sm-3 col-lg-12">
+        <div class="d-flex row">
+            <div class="col-xl-4 col-md-4 animated fadeInRight ">
+                <div class="section-title d-flex ">
+                    <div class="respons">
+                        <div class="imgs">
+                            <img src="~/assets/images/My-Positivity.svg" />
+                        </div>
+
+                        <div class="title">
+                            <h3>@MonthlyAward.MyPositivityAccount</h3>
+                            <h4>@MonthlyAward.account</h4>
+                        </div>
+                    </div>
+
+                </div>
+                <p class="section-desc d-none d-md-block">
+                    @MonthlyAward.MyPositivity
+                </p>
+            </div>
+            <div class="col-xl-8 col-md-8">
+                @*<div class="no-data">
+                        <h5><i class="fas fa-exclamation-triangle"></i> Sorry, There is no thank you appreciation for you till now.</h5>
+                    </div>*@
+
+                <div id="MyPositivity" class="section-boxs d-flex flex-wrap animated slidInUp">
+
+                </div>
+
+
+
+            </div>
+        </div>
+        <div class="py-2"></div>
+        <div class="d-flex row py-5">
+            <div class="col-xl-4 col-md-4 animated fadeInRight">
+                <div class="section-title d-flex">
+                    <div class="respons">
+                        <div class="imgs">
+                            <img src="~/assets/images/My-Excellency.svg" />
+                        </div>
+
+                        <div class="title">
+                            <h3>@MonthlyAward.MyExcellence</h3>
+                            <h4>@MonthlyAward.account</h4>
+                        </div>
+                    </div>
+                </div>
+                <p class="section-desc d-none d-md-block">
+                    @MonthlyAward.Myexcllence
+                </p>
+            </div>
+            <div id="MyExecllence" class="col-xl-8 col-md-8">
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-xl-3 pull-sm-9">
+        <div class="awardTimeline animated fadeInLeft">
+            <div class="remainTime">
+                <div class="timeProgressBox">
+                    <!--<div id="DateCountdown" data-date="2019-01-01 00:00:00"></div>-->
+                    <div id="skill12">
+                        <span class="text">@TACME_FANR_Common.DaysLeft</span>
+                    </div>
+                    @*<section id="timeProgress">
+
+                            <div class="wrapper">
+                                <div class="countdown"></div>
+                            </div>
+                        </section>*@
+                </div>
+                <p class="box-desc">@MonthlyAward.employeeofthe<br /><span>@TACME_FANR_AnnualAward.Month</span></p>
+            </div>
+            <div id="EmployeeOfMonth" class="monthTimeLineBox">
+                @{ Html.RenderPartial("_EmployeeOfMonth", Model); }
+            </div>
+
+            @*<div class="no-data">
+                    <h5><i class="fas fa-exclamation-triangle"></i> Sorry, there is no employee of the month till now</h5>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/custom-ui.js")
+@Scripts.Render("~/bundles/home.js")
+
